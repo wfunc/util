@@ -141,6 +141,8 @@ func (m *M) Scan(src interface{}) (err error) {
 	if src != nil {
 		if jsonSrc, ok := src.(string); ok {
 			err = json.Unmarshal([]byte(jsonSrc), m)
+		} else if jsonSrc, ok := src.([]byte); ok {
+			err = json.Unmarshal(jsonSrc, m)
 		} else {
 			err = fmt.Errorf("the %v,%v is not string", reflect.TypeOf(src), src)
 		}
