@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/codingeasygo/util/converter"
+	"github.com/wfunc/util/converter"
 )
 
 const ShouldIsNil ShouldAction = "IsNil"

@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/codingeasygo/util/converter"
+	"github.com/wfunc/util/converter"
 )
 
 func assert(v bool) {

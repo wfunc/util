@@ -11,9 +11,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/codingeasygo/util/converter"
-	"github.com/codingeasygo/util/xjson"
-	"github.com/codingeasygo/util/xmap"
+	"github.com/wfunc/util/converter"
+	"github.com/wfunc/util/xjson"
+	"github.com/wfunc/util/xmap"
 )
 
 func init() {

@@ -9,9 +9,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/codingeasygo/util/attrvalid"
+	"github.com/wfunc/util/attrvalid"
 
-	"github.com/codingeasygo/util/converter"
+	"github.com/wfunc/util/converter"
 )
 
 // BaseValuable is interface which can be store value

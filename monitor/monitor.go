@@ -8,8 +8,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/codingeasygo/util/xmap"
-	"github.com/codingeasygo/util/xtime"
+	"github.com/wfunc/util/xmap"
+	"github.com/wfunc/util/xtime"
 )
 
 type Statable interface {

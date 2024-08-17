@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/codingeasygo/util/xio"
+	"github.com/wfunc/util/xio"
 )
 
 func runEchoServer(addr string) {

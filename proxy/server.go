@@ -4,9 +4,9 @@ import (
 	"net"
 	"sync"
 
-	"github.com/codingeasygo/util/proxy/http"
-	"github.com/codingeasygo/util/proxy/socks"
-	"github.com/codingeasygo/util/xio"
+	"github.com/wfunc/util/proxy/http"
+	"github.com/wfunc/util/proxy/socks"
+	"github.com/wfunc/util/xio"
 )
 
 // Server provider http/socks combined server

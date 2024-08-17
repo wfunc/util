@@ -10,10 +10,10 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/codingeasygo/util/xio"
+	"github.com/wfunc/util/xio"
 )
 
-//Server is http proxy server
+// Server is http proxy server
 type Server struct {
 	BufferSize int
 	listners   map[net.Listener]string
@@ -22,7 +22,7 @@ type Server struct {
 	Agent      string
 }
 
-//NewServer will return new server
+// NewServer will return new server
 func NewServer() (proxy *Server) {
 	proxy = &Server{
 		BufferSize: 32 * 1024,
@@ -34,7 +34,7 @@ func NewServer() (proxy *Server) {
 	return
 }
 
-//Run will listen tcp on address and accept to ProcConn
+// Run will listen tcp on address and accept to ProcConn
 func (s *Server) loopAccept(l net.Listener) (err error) {
 	var conn net.Conn
 	for {
@@ -48,7 +48,7 @@ func (s *Server) loopAccept(l net.Listener) (err error) {
 	return
 }
 
-//Run will listen tcp on address and sync accept to ProcConn
+// Run will listen tcp on address and sync accept to ProcConn
 func (s *Server) Run(addr string) (err error) {
 	listener, err := net.Listen("tcp", addr)
 	if err == nil {
@@ -60,7 +60,7 @@ func (s *Server) Run(addr string) (err error) {
 	return
 }
 
-//Start will listen tcp on address and async accept to ProcConn
+// Start will listen tcp on address and async accept to ProcConn
 func (s *Server) Start(addr string) (listener net.Listener, err error) {
 	listener, err = net.Listen("tcp", addr)
 	if err == nil {
@@ -72,7 +72,7 @@ func (s *Server) Start(addr string) (listener net.Listener, err error) {
 	return
 }
 
-//Stop will stop listener and wait loop stop
+// Stop will stop listener and wait loop stop
 func (s *Server) Stop() (err error) {
 	for listener, addr := range s.listners {
 		err = listener.Close()
@@ -83,7 +83,7 @@ func (s *Server) Stop() (err error) {
 	return
 }
 
-//ProcConn will processs net connect as http proxy
+// ProcConn will processs net connect as http proxy
 func (s *Server) ProcConn(conn io.ReadWriteCloser) (err error) {
 	// DebugLog("Server proxy http connection on %v from %v", xio.LocalAddr(conn), xio.RemoteAddr(conn))
 	defer func() {
@@ -162,7 +162,7 @@ func (s *Server) ProcConn(conn io.ReadWriteCloser) (err error) {
 	return
 }
 
-//Dial will dial uri by proxy server
+// Dial will dial uri by proxy server
 func Dial(proxy, uri string) (conn net.Conn, err error) {
 	proxy = strings.TrimPrefix(proxy, "http://")
 	proxy = strings.TrimSuffix(proxy, "/")

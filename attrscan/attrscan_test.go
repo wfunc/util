@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/codingeasygo/util/converter"
+	"github.com/wfunc/util/converter"
 )
 
 type IsNilArray []string

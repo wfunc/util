@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/codingeasygo/util/xio"
+	"github.com/wfunc/util/xio"
 )
 
 const (

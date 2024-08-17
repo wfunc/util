@@ -7,7 +7,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/codingeasygo/util/xnet"
+	"github.com/wfunc/util/xnet"
 )
 
 var waiter = sync.WaitGroup{}

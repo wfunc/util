@@ -9,8 +9,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/codingeasygo/util/xio"
-	"github.com/codingeasygo/util/xnet"
+	"github.com/wfunc/util/xio"
+	"github.com/wfunc/util/xnet"
 	"golang.org/x/net/websocket"
 )
 

@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/codingeasygo/util/converter"
+	"github.com/wfunc/util/converter"
 )
 
 // ReplaceAll will replace input string by ${xx}, which xx is in values,

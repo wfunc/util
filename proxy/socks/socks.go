@@ -9,8 +9,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/codingeasygo/util/xdebug"
-	"github.com/codingeasygo/util/xio"
+	"github.com/wfunc/util/xdebug"
+	"github.com/wfunc/util/xio"
 )
 
 // Codable is interface for get current code

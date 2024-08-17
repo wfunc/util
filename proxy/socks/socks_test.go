@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/codingeasygo/util/xio"
+	"github.com/wfunc/util/xio"
 )
 
 func TestProxy(t *testing.T) {

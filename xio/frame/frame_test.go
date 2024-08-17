@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/codingeasygo/util/xdebug"
-	"github.com/codingeasygo/util/xio"
+	"github.com/wfunc/util/xdebug"
+	"github.com/wfunc/util/xio"
 )
 
 type deadlineRWC struct {

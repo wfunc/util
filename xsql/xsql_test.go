@@ -8,10 +8,10 @@ package xsql
 // 	"testing"
 // 	"time"
 
-// 	"github.com/codingeasygo/util/attrvalid"
-// 	"github.com/codingeasygo/util/converter"
-// 	"github.com/codingeasygo/util/xmap"
-// 	"github.com/codingeasygo/util/xtime"
+// 	"github.com/wfunc/util/attrvalid"
+// 	"github.com/wfunc/util/converter"
+// 	"github.com/wfunc/util/xmap"
+// 	"github.com/wfunc/util/xtime"
 // 	"github.com/jackc/pgx/v4/pgxpool"
 // 	"github.com/shopspring/decimal"
 // )

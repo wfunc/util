@@ -8,9 +8,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/codingeasygo/util/proxy/socks"
-	"github.com/codingeasygo/util/xdebug"
-	"github.com/codingeasygo/util/xio"
+	"github.com/wfunc/util/proxy/socks"
+	"github.com/wfunc/util/xdebug"
+	"github.com/wfunc/util/xio"
 )
 
 type RouterPiperDialer struct {

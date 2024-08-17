@@ -7,7 +7,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/codingeasygo/util/xtime"
+	"github.com/wfunc/util/xtime"
 )
 
 // var FullError = fmt.Errorf("runner is almost full")

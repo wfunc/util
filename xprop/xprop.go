@@ -17,8 +17,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/codingeasygo/util/converter"
-	"github.com/codingeasygo/util/xmap"
+	"github.com/wfunc/util/converter"
+	"github.com/wfunc/util/xmap"
 )
 
 type sconf map[string]string
@@ -35,7 +35,7 @@ func (s sconf) autoPath(path ...string) (all []string) {
 	return
 }
 
-//ValueVal will get value by path
+// ValueVal will get value by path
 func (s sconf) ValueVal(path ...string) (v interface{}, err error) {
 	ps := s.autoPath(path...)
 	for _, p := range ps {
@@ -48,7 +48,7 @@ func (s sconf) ValueVal(path ...string) (v interface{}, err error) {
 	return
 }
 
-//SetValue will set value to path
+// SetValue will set value to path
 func (s sconf) SetValue(path string, val interface{}) (err error) {
 	path = strings.TrimPrefix(path, "/")
 	path = strings.TrimSpace(path)
@@ -56,13 +56,13 @@ func (s sconf) SetValue(path string, val interface{}) (err error) {
 	return
 }
 
-//Delete will delete value on path
+// Delete will delete value on path
 func (s sconf) Delete(path string) (err error) {
 	delete(s, path)
 	return
 }
 
-//Clear will clear all key on map
+// Clear will clear all key on map
 func (s sconf) Clear() (err error) {
 	for key := range s {
 		delete(s, key)
@@ -70,13 +70,13 @@ func (s sconf) Clear() (err error) {
 	return
 }
 
-//Length will return value count
+// Length will return value count
 func (s sconf) Length() (l int) {
 	l = len(s)
 	return
 }
 
-//Exist will check path whether exist
+// Exist will check path whether exist
 func (s sconf) Exist(path ...string) (ok bool) {
 	for _, p := range path {
 		_, ok = s[p]
@@ -87,7 +87,7 @@ func (s sconf) Exist(path ...string) (ok bool) {
 	return
 }
 
-//Config is parser for properties file
+// Config is parser for properties file
 type Config struct {
 	xmap.Valuable
 	config  sconf
@@ -100,7 +100,7 @@ type Config struct {
 	Masks   map[string]string
 }
 
-//NewConfig will return new config
+// NewConfig will return new config
 func NewConfig() (config *Config) {
 	config = &Config{
 		config:  sconf{},
@@ -112,13 +112,13 @@ func NewConfig() (config *Config) {
 	return
 }
 
-//LoadConf will load new config by uri
+// LoadConf will load new config by uri
 func LoadConf(uri string) (config *Config, err error) {
 	config, err = LoadConfWait(uri, true)
 	return
 }
 
-//LoadConfWait will load new config by uri
+// LoadConfWait will load new config by uri
 func LoadConfWait(uri string, wait bool) (config *Config, err error) {
 	config = NewConfig()
 	err = config.LoadWait(uri, wait)
@@ -131,7 +131,7 @@ func (c *Config) slog(fs string, args ...interface{}) {
 	}
 }
 
-//FileModeDef read file mode value
+// FileModeDef read file mode value
 func (c *Config) FileModeDef(def os.FileMode, path ...string) (mode os.FileMode) {
 	mode, err := c.FileModeVal(path...)
 	if err != nil {
@@ -140,7 +140,7 @@ func (c *Config) FileModeDef(def os.FileMode, path ...string) (mode os.FileMode)
 	return
 }
 
-//FileModeVal read file mode value
+// FileModeVal read file mode value
 func (c *Config) FileModeVal(path ...string) (mode os.FileMode, err error) {
 	data, err := c.StrVal(path...)
 	if err != nil {
@@ -155,12 +155,12 @@ func (c *Config) FileModeVal(path ...string) (mode os.FileMode, err error) {
 	return
 }
 
-//Print all configure
+// Print all configure
 func (c *Config) Print() {
 	fmt.Println(c.String())
 }
 
-//PrintSection print session to stdout
+// PrintSection print session to stdout
 func (c *Config) PrintSection(section string) {
 	mask := map[*regexp.Regexp]*regexp.Regexp{}
 	for k, v := range c.Masks {
@@ -183,7 +183,7 @@ func (c *Config) PrintSection(section string) {
 	fmt.Println(sdata)
 }
 
-//Range the section key-value by callback
+// Range the section key-value by callback
 func (c *Config) Range(section string, callback func(key string, val interface{})) {
 	for k, v := range c.config {
 		if strings.HasPrefix(k, section) {
@@ -265,12 +265,12 @@ func (c *Config) load(base, line string, wait bool) error {
 	return err
 }
 
-//Load will load config by uri
+// Load will load config by uri
 func (c *Config) Load(uri string) error {
 	return c.LoadWait(uri, false)
 }
 
-//LoadWait will load config by uri and wait when uri is not found
+// LoadWait will load config by uri and wait when uri is not found
 func (c *Config) LoadWait(uri string, wait bool) error {
 	if strings.HasPrefix(uri, "http://") {
 		return c.LoadWebWait(uri, wait)
@@ -285,12 +285,12 @@ func (c *Config) LoadWait(uri string, wait bool) error {
 	}
 }
 
-//LoadFile will load the configure by .properties file.
+// LoadFile will load the configure by .properties file.
 func (c *Config) LoadFile(filename string) error {
 	return c.LoadFileWait(filename, true)
 }
 
-//LoadFileWait will load the configure by .properties file and wait when file not exist
+// LoadFileWait will load the configure by .properties file and wait when file not exist
 func (c *Config) LoadFileWait(filename string, wait bool) error {
 	c.slog("loading local configure->%v", filename)
 	var parts = strings.Split(filename, "?")
@@ -337,12 +337,12 @@ func (c *Config) LoadFileWait(filename string, wait bool) error {
 	return c.LoadPropReaderWait(dir, file, wait)
 }
 
-//LoadPropReader will load properties config by reader
+// LoadPropReader will load properties config by reader
 func (c *Config) LoadPropReader(base string, reader io.Reader) error {
 	return c.LoadPropReaderWait(base, reader, true)
 }
 
-//LoadPropReaderWait will load properties config by reader
+// LoadPropReaderWait will load properties config by reader
 func (c *Config) LoadPropReaderWait(base string, reader io.Reader, wait bool) error {
 	if len(base) > 0 {
 		c.Base = base
@@ -367,7 +367,7 @@ func (c *Config) LoadPropReaderWait(base string, reader io.Reader, wait bool) er
 	return nil
 }
 
-//LoadConfReader will load conf config by reader
+// LoadConfReader will load conf config by reader
 func (c *Config) LoadConfReader(base string, reader io.Reader) error {
 	var key, val string
 	buf := bufio.NewReaderSize(reader, 64*1024)
@@ -416,12 +416,12 @@ func (c *Config) webGet(url string) (data string, err error) {
 	return
 }
 
-//LoadWeb will load the configure by network .properties URL.
+// LoadWeb will load the configure by network .properties URL.
 func (c *Config) LoadWeb(remote string) error {
 	return c.LoadWebWait(remote, true)
 }
 
-//LoadWebWait will load the configure by network .properties URL.
+// LoadWebWait will load the configure by network .properties URL.
 func (c *Config) LoadWebWait(remote string, wait bool) (err error) {
 	c.slog("loading remote configure->%v", remote)
 	var data string
@@ -455,27 +455,27 @@ func (c *Config) LoadWebWait(remote string, wait bool) (err error) {
 	return c.LoadPropReaderWait(rurl.RequestURI(), bytes.NewBufferString(data), wait)
 }
 
-//LoadPropString will load properties config by string config
+// LoadPropString will load properties config by string config
 func (c *Config) LoadPropString(data string) error {
 	return c.LoadPropStringWait(data, true)
 }
 
-//LoadPropStringWait will load properties config by string config
+// LoadPropStringWait will load properties config by string config
 func (c *Config) LoadPropStringWait(data string, wait bool) error {
 	return c.LoadPropReaderWait("", bytes.NewBufferString(data), wait)
 }
 
-//LoadConfString will load conf config by string config
+// LoadConfString will load conf config by string config
 func (c *Config) LoadConfString(data string) error {
 	return c.LoadConfReader("", bytes.NewBufferString(data))
 }
 
-//EnvReplace will replace tartget patter by ${key} with value in configure map or system environment value.
+// EnvReplace will replace tartget patter by ${key} with value in configure map or system environment value.
 func (c *Config) EnvReplace(val string) string {
 	return c.EnvReplaceEmpty(val, false)
 }
 
-//EnvReplaceEmpty will replace tartget patter by ${key} with value in configure map or system environment value.
+// EnvReplaceEmpty will replace tartget patter by ${key} with value in configure map or system environment value.
 func (c *Config) EnvReplaceEmpty(val string, empty bool) string {
 	reg := regexp.MustCompile(`\$\{[^\}]*\}`)
 	val = reg.ReplaceAllStringFunc(val, func(m string) string {
@@ -506,7 +506,7 @@ func (c *Config) EnvReplaceEmpty(val string, empty bool) string {
 	return val
 }
 
-//Merge merge another configure.
+// Merge merge another configure.
 func (c *Config) Merge(config *Config) {
 	if config == nil {
 		return
@@ -522,7 +522,7 @@ func (c *Config) Merge(config *Config) {
 	}
 }
 
-//MergeSection merge section on another configure
+// MergeSection merge section on another configure
 func (c *Config) MergeSection(section string, config *Config) {
 	for k, v := range config.config {
 		if strings.HasPrefix(k, section) {
@@ -535,7 +535,7 @@ func (c *Config) MergeSection(section string, config *Config) {
 	}
 }
 
-//Clone will clone the configure
+// Clone will clone the configure
 func (c *Config) Clone() (conf *Config) {
 	conf = NewConfig()
 	for k, v := range c.config {

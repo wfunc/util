@@ -12,84 +12,84 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/codingeasygo/util/attrscan"
-	"github.com/codingeasygo/util/converter"
+	"github.com/wfunc/util/attrscan"
+	"github.com/wfunc/util/converter"
 )
 
 type ZeroChecker interface {
 	IsZero() bool
 }
 
-//EnumValider is interface to enum valid
+// EnumValider is interface to enum valid
 type EnumValider interface {
 	EnumValid(v interface{}) error
 }
 
-//Validable is interface to define object can be valid by valid temple
+// Validable is interface to define object can be valid by valid temple
 type Validable interface {
 	ValidFormat(format string, args ...interface{}) error
 }
 
-//M is an map[string]interface{} which can be valid by valid temple
+// M is an map[string]interface{} which can be valid by valid temple
 type M map[string]interface{}
 
-//RawMap will return raw map
+// RawMap will return raw map
 func (m M) RawMap() map[string]interface{} {
 	return m
 }
 
-//Get will return value by key
+// Get will return value by key
 func (m M) Get(key string) (v interface{}, err error) {
 	return m[key], nil
 }
 
-//ValidFormat will valid args by format temple
+// ValidFormat will valid args by format temple
 func (m M) ValidFormat(format string, args ...interface{}) error {
 	return ValidAttrFormat(format, m, true, args...)
 }
 
-//MS is an map[string]string which can be valid by valid temple
+// MS is an map[string]string which can be valid by valid temple
 type MS map[string]string
 
-//Get will return value by key
+// Get will return value by key
 func (m MS) Get(key string) (v interface{}, err error) {
 	return m[key], nil
 }
 
-//ValidFormat will valid args by format temple
+// ValidFormat will valid args by format temple
 func (m MS) ValidFormat(format string, args ...interface{}) error {
 	return ValidAttrFormat(format, m, true, args...)
 }
 
-//Values is an url.Values which can be valid by valid temple
+// Values is an url.Values which can be valid by valid temple
 type Values url.Values
 
-//Get will return value by key
+// Get will return value by key
 func (v Values) Get(key string) (val interface{}, err error) {
 	return url.Values(v).Get(key), nil
 }
 
-//ValidFormat will valid args by format temple
+// ValidFormat will valid args by format temple
 func (v Values) ValidFormat(format string, args ...interface{}) error {
 	return ValidAttrFormat(format, v, true, args...)
 }
 
-//QueryValidFormat will valid args by http request query
+// QueryValidFormat will valid args by http request query
 func QueryValidFormat(req *http.Request, format string, args ...interface{}) error {
 	return Values(req.URL.Query()).ValidFormat(format, args...)
 }
 
-//FormValidFormat will valid args by http request form
+// FormValidFormat will valid args by http request form
 func FormValidFormat(req *http.Request, format string, args ...interface{}) error {
 	return Values(req.Form).ValidFormat(format, args...)
 }
 
-//PostFormValidFormat will valid args by http request post form
+// PostFormValidFormat will valid args by http request post form
 func PostFormValidFormat(req *http.Request, format string, args ...interface{}) error {
 	return Values(req.PostForm).ValidFormat(format, args...)
 }
 
-//RequestValidFormat will valid args by http request query/form/postform
+// RequestValidFormat will valid args by http request query/form/postform
 func RequestValidFormat(req *http.Request, format string, args ...interface{}) error {
 	query := req.URL.Query()
 	getter := func(key string) (v interface{}, err error) {
@@ -144,12 +144,11 @@ func CompatibleType(typ reflect.Type) (ok bool) {
 	return
 }
 
-//ValidAttrTemple will valid the data to specified value by limit
+// ValidAttrTemple will valid the data to specified value by limit
 //
+// data: target value for valding
 //
-//data: target value for valding
-//
-//valueType: target value type limit by <R or O>|<S or I or F>
+// valueType: target value type limit by <R or O>|<S or I or F>
 //
 //	R is value must be having and valid
 //
@@ -161,8 +160,7 @@ func CompatibleType(typ reflect.Type) (ok bool) {
 //
 //	example "O|F" is optional float value
 //
-//
-//valueRange: taget value range limit by <O or R or P>:<limit pattern>
+// valueRange: taget value range limit by <O or R or P>:<limit pattern>
 //
 //	O is value must be in options, all optional is seperated by -
 //
@@ -173,8 +171,8 @@ func CompatibleType(typ reflect.Type) (ok bool) {
 //	example "O:1-2-3-4" is valid by value is in options 1-2-3-4)
 //	example "P:^.*\@.*$" is valid by string having "@"
 //
-//required: if true, ValidAttrTemple will return fail when require value is empty or nil,
-//if false, ValidAttrTemple will return success although setting required for emppty/nil value
+// required: if true, ValidAttrTemple will return fail when require value is empty or nil,
+// if false, ValidAttrTemple will return success although setting required for emppty/nil value
 func ValidAttrTemple(data interface{}, valueType string, valueRange string, required bool, enum EnumValider) (interface{}, error) {
 	valueRange = strings.Replace(valueRange, "%N", ",", -1)
 	valueRange = strings.Replace(valueRange, "%%", "%", -1)
@@ -392,49 +390,48 @@ func validAttrTemple(data interface{}, temple string, parts []string, required b
 	return
 }
 
-//ValueSetter is interface to set value to target arg
+// ValueSetter is interface to set value to target arg
 type ValueSetter interface {
 	//Set the value
 	Set(value interface{}) error
 }
 
-//ValueSetterF is func for implment ValueSetter
+// ValueSetterF is func for implment ValueSetter
 type ValueSetterF func(interface{}) error
 
-//Set will set value to arg
+// Set will set value to arg
 func (v ValueSetterF) Set(value interface{}) error { return v(value) }
 
-//ValueGetter is inteface for using get the value by key
+// ValueGetter is inteface for using get the value by key
 type ValueGetter interface {
 	//Get the value by key
 	Get(key string) (interface{}, error)
 }
 
-//ValueGetterF is func for implment ValueGetter
+// ValueGetterF is func for implment ValueGetter
 type ValueGetterF func(key string) (interface{}, error)
 
-//Get will call the func
+// Get will call the func
 func (v ValueGetterF) Get(key string) (interface{}, error) { return v(key) }
 
-//ValidAttrFormat will valid multi value by foramt template, return error if fail
+// ValidAttrFormat will valid multi value by foramt template, return error if fail
 //
-//format is temple set is seperated by ";", general it is one line one temple end with ";"
+// format is temple set is seperated by ";", general it is one line one temple end with ";"
 //
 //	arg1,R|I,R:0;
 //	arg2,O|F,R:0;
 //	...
 //
-//valueGetter is value getter by key
+// valueGetter is value getter by key
 //
-//required if true, ValidAttrTemple will return fail when require value is empty or nil,
-//if false, ValidAttrTemple will return success although setting required for emppty/nil value
+// required if true, ValidAttrTemple will return fail when require value is empty or nil,
+// if false, ValidAttrTemple will return success although setting required for emppty/nil value
 //
-//args is variable list for store value, it must be go pointer
+// args is variable list for store value, it must be go pointer
 //
 //	var arg1 int
 //	var arg2 float64
 //	ValidAttrFormat(format,getter,&arg1,&arg2)
-//
 func ValidAttrFormat(format string, valueGetter ValueGetter, required bool, args ...interface{}) error {
 	format = regexp.MustCompile(`\/\/.*`).ReplaceAllString(format, "")
 	format = strings.Replace(format, "\n", "", -1)
@@ -560,7 +557,7 @@ func ValidAttrFormat(format string, valueGetter ValueGetter, required bool, args
 	return nil
 }
 
-//ValidSetValue will convert src value to dst type and set it
+// ValidSetValue will convert src value to dst type and set it
 func ValidSetValue(dst, src interface{}) error {
 	if sc, ok := dst.(sql.Scanner); ok {
 		return sc.Scan(src)
@@ -581,7 +578,7 @@ func ValidSetValue(dst, src interface{}) error {
 	return err
 }
 
-//ValidValue will convert src value to dst type and return it
+// ValidValue will convert src value to dst type and return it
 func ValidValue(dst reflect.Type, src interface{}) (val interface{}, err error) {
 	srcType := reflect.TypeOf(src)
 	srcValue := reflect.ValueOf(src)
@@ -721,7 +718,7 @@ type rawMapable interface {
 	RawMap() map[string]interface{}
 }
 
-//Struct is validable struct impl
+// Struct is validable struct impl
 type Struct struct {
 	Target   interface{}
 	Required bool
@@ -729,7 +726,7 @@ type Struct struct {
 	loaded   map[string]interface{}
 }
 
-//NewStruct will return new struct
+// NewStruct will return new struct
 func NewStruct(target interface{}) (s *Struct) {
 	if reflect.TypeOf(target).Kind() != reflect.Ptr {
 		panic("target must be pointer")
@@ -743,7 +740,7 @@ func NewStruct(target interface{}) (s *Struct) {
 	return
 }
 
-//Get will return field value by key
+// Get will return field value by key
 func (s *Struct) Get(key string) (value interface{}, err error) {
 	if len(s.loaded) < 1 {
 		value := reflect.ValueOf(s.Target).Elem()
@@ -783,17 +780,17 @@ func (s *Struct) Get(key string) (value interface{}, err error) {
 	return
 }
 
-//ValidFormat will valid format to struct filed
+// ValidFormat will valid format to struct filed
 func (s *Struct) ValidFormat(format string, args ...interface{}) error {
 	return ValidAttrFormat(format, s, s.Required, args...)
 }
 
-//ValidStructAttrFormat will valid struct by filed
+// ValidStructAttrFormat will valid struct by filed
 func ValidStructAttrFormat(format string, target interface{}, required bool, args ...interface{}) error {
 	return ValidAttrFormat(format, NewStruct(target), required, args...)
 }
 
-//ValidFormat will check all supported type and run valid format
+// ValidFormat will check all supported type and run valid format
 func ValidFormat(format string, target interface{}, args ...interface{}) error {
 	if getter, ok := target.(ValueGetter); ok {
 		return ValidAttrFormat(format, getter, true, args...)

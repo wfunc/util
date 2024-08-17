@@ -16,7 +16,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/codingeasygo/util/xtime"
+	"github.com/wfunc/util/xtime"
 )
 
 func AutoExec2(logf string, precall func(state Perf2, ridx uint64, used int64, rerr error) (uint64, error), call func(uint64) error) (used int64, max, avg uint64, err error) {

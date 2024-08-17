@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/codingeasygo/util/xcrypto"
+	"github.com/wfunc/util/xcrypto"
 )
 
 func main() {

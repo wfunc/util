@@ -11,15 +11,15 @@ echo "Installing Dependence"
 #########Running Test#########
 echo "Running Test"
 pkgs="\
-  github.com/codingeasygo/util/attrvalid\
-  github.com/codingeasygo/util/converter\
-  github.com/codingeasygo/util/monitor\
-  github.com/codingeasygo/util/uuid\
-  github.com/codingeasygo/util/xhttp\
-  github.com/codingeasygo/util/xio\
-  github.com/codingeasygo/util/xio/frame\
-  github.com/codingeasygo/util/xmap\
-  github.com/codingeasygo/util/xprop\
+  github.com/wfunc/util/attrvalid\
+  github.com/wfunc/util/converter\
+  github.com/wfunc/util/monitor\
+  github.com/wfunc/util/uuid\
+  github.com/wfunc/util/xhttp\
+  github.com/wfunc/util/xio\
+  github.com/wfunc/util/xio/frame\
+  github.com/wfunc/util/xmap\
+  github.com/wfunc/util/xprop\
 "
 echo "mode: set" >a.out
 for p in $pkgs; do

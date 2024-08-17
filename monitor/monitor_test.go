@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/codingeasygo/util/converter"
-	"github.com/codingeasygo/util/xtest"
+	"github.com/wfunc/util/converter"
+	"github.com/wfunc/util/xtest"
 )
 
 func TestMonitor(t *testing.T) {

@@ -8,7 +8,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/codingeasygo/util/xio"
+	"github.com/wfunc/util/xio"
 )
 
 func MD5(data []byte) string {
