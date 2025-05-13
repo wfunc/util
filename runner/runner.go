@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/codingeasygo/crud/pgx"
+	"github.com/wfunc/crud/pgx"
 	"github.com/wfunc/util/xdebug"
 )
 
