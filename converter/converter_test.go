@@ -105,6 +105,47 @@ func TestNumber(t *testing.T) {
 	}
 }
 
+func TestBool(t *testing.T) {
+	var (
+		boolTrue  = true
+		boolFalse = false
+	)
+	cases := map[string]interface{}{
+		"true":         true,
+		"false":        false,
+		"int_true":     int(2),
+		"int_false":    int(0),
+		"float_true":   float64(0.5),
+		"float_false":  float64(0),
+		"string_true":  "true",
+		"string_false": "0",
+		"ptr_true":     &boolTrue,
+		"ptr_false":    &boolFalse,
+	}
+	for key, val := range cases {
+		boolA, err := BoolVal(val)
+		if err != nil {
+			t.Errorf("%v %v", key, err)
+			return
+		}
+		boolB := Bool(val)
+		if boolA != boolB {
+			t.Errorf("%v %v %v", key, boolA, boolB)
+			return
+		}
+	}
+	errCases := map[string]interface{}{
+		"nil":    nil,
+		"string": "abc",
+	}
+	for key, val := range errCases {
+		if _, err := BoolVal(val); err == nil {
+			t.Errorf("%v", key)
+			return
+		}
+	}
+}
+
 func TestString(t *testing.T) {
 	var m map[string]interface{}
 	//test all type

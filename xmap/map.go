@@ -65,6 +65,12 @@ type Valuable interface {
 	Float64Def(def float64, path ...string) (v float64)
 	//Float64Val will convert path value to float64, return error when not exist or convert fail
 	Float64Val(path ...string) (float64, error)
+	//Bool will convert path value to bool
+	Bool(path ...string) bool
+	//BoolDef will convert path value to bool, return default when not exist or convert fail
+	BoolDef(def bool, path ...string) (v bool)
+	//BoolVal will convert path value to bool, return error when not exist or convert fail
+	BoolVal(path ...string) (bool, error)
 	//Str will convert path value to string
 	Str(path ...string) string
 	//StrDef will convert path value to string, return default when not exist or convert fail
@@ -194,6 +200,25 @@ func (i *impl) Float64Def(def float64, path ...string) (v float64) {
 // Float64Val will convert path value to float64, return error when not exist or convert fail
 func (i *impl) Float64Val(path ...string) (float64, error) {
 	return converter.Float64Val(i.Value(path...))
+}
+
+// Bool will convert path value to bool
+func (i *impl) Bool(path ...string) bool {
+	return converter.Bool(i.Value(path...))
+}
+
+// BoolDef will convert path value to bool, return default when not exist or convert fail
+func (i *impl) BoolDef(def bool, path ...string) (v bool) {
+	v, err := i.BoolVal(path...)
+	if err != nil {
+		v = def
+	}
+	return
+}
+
+// BoolVal will convert path value to bool, return error when not exist or convert fail
+func (i *impl) BoolVal(path ...string) (bool, error) {
+	return converter.BoolVal(i.Value(path...))
 }
 
 // Str will convert path value to string
@@ -714,6 +739,25 @@ func (m M) Float64Def(def float64, path ...string) (v float64) {
 // Float64Val will convert path value to float64, return error when not exist or convert fail
 func (m M) Float64Val(path ...string) (float64, error) {
 	return converter.Float64Val(m.Value(path...))
+}
+
+// Bool will convert path value to bool
+func (m M) Bool(path ...string) bool {
+	return converter.Bool(m.Value(path...))
+}
+
+// BoolDef will convert path value to bool, return default when not exist or convert fail
+func (m M) BoolDef(def bool, path ...string) (v bool) {
+	v, err := m.BoolVal(path...)
+	if err != nil {
+		v = def
+	}
+	return
+}
+
+// BoolVal will convert path value to bool, return error when not exist or convert fail
+func (m M) BoolVal(path ...string) (bool, error) {
+	return converter.BoolVal(m.Value(path...))
 }
 
 // Str will convert path value to string

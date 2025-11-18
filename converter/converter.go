@@ -44,6 +44,16 @@ func valueConvert(v interface{}, targetType reflect.Type, defaultRet interface{}
 	if targetValue.CanConvert(targetType) {
 		return targetValue.Convert(targetType).Interface(), nil
 	}
+	if targetType.Kind() == reflect.Bool {
+		switch targetValue.Kind() {
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+			return targetValue.Int() != 0, nil
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+			return targetValue.Uint() != 0, nil
+		case reflect.Float32, reflect.Float64:
+			return targetValue.Float() != 0, nil
+		}
+	}
 	if targetValue.Kind() == reflect.Ptr {
 		targetValue = reflect.Indirect(targetValue)
 		if !targetValue.IsValid() {
@@ -132,6 +142,23 @@ func Float64Val(v interface{}) (float64, error) {
 	return ret.(float64), nil
 }
 
+func Bool(v interface{}) bool {
+	val, _ := BoolVal(v)
+	return val
+}
+
+var _boolType = reflect.TypeOf(true)
+
+func BoolVal(v interface{}) (bool, error) {
+	ret, err := valueConvert(v, _boolType, false, func(s string) (interface{}, error) {
+		return strconv.ParseBool(strings.TrimSpace(s))
+	})
+	if err != nil {
+		return false, err
+	}
+	return ret.(bool), nil
+}
+
 func String(v interface{}) string {
 	val, _ := StringVal(v)
 	return val
@@ -155,12 +182,12 @@ func StringVal(v interface{}) (res string, err error) {
 	}
 }
 
-//ArrayVal will convert value to array, if v is string will split it by comma, if v is slice will loop element to array, other will error
+// ArrayVal will convert value to array, if v is string will split it by comma, if v is slice will loop element to array, other will error
 func ArrayVal(v interface{}) ([]interface{}, error) {
 	return ArrayValAll(v, false)
 }
 
-//ArrayValAll will convert all value to array, if v is string will split it by comma, if v is slice will loop element to array, other will return []interface{}{v} when all is true
+// ArrayValAll will convert all value to array, if v is string will split it by comma, if v is slice will loop element to array, other will return []interface{}{v} when all is true
 func ArrayValAll(v interface{}, all bool) ([]interface{}, error) {
 	if v == nil {
 		return nil, ErrNil
@@ -456,7 +483,7 @@ func ArrayFloat64Val(v interface{}) (ivals []float64, err error) {
 	return
 }
 
-//ArrayHaving will return true if the array element having one is in objs
+// ArrayHaving will return true if the array element having one is in objs
 func ArrayHaving(ary interface{}, objs ...interface{}) bool {
 	switch reflect.TypeOf(ary).Kind() {
 	case reflect.Slice:
@@ -490,7 +517,7 @@ func XML(v interface{}) string {
 	return string(data)
 }
 
-//UnmarshalJSON will read bytes from reader and unmarshal to object
+// UnmarshalJSON will read bytes from reader and unmarshal to object
 func UnmarshalJSON(r io.Reader, v interface{}) (data []byte, err error) {
 	data, err = ioutil.ReadAll(r)
 	if err == nil || err == io.EOF {
@@ -499,7 +526,7 @@ func UnmarshalJSON(r io.Reader, v interface{}) (data []byte, err error) {
 	return
 }
 
-//UnmarshalXML will read bytes from reader and unmarshal to object
+// UnmarshalXML will read bytes from reader and unmarshal to object
 func UnmarshalXML(r io.Reader, v interface{}) (data []byte, err error) {
 	data, err = ioutil.ReadAll(r)
 	if err == nil || err == io.EOF {
@@ -573,7 +600,7 @@ func StringPtr(arg string) *string {
 	return &arg
 }
 
-//Join all slice to string
+// Join all slice to string
 func Join(v interface{}, sep string) string {
 	vtype := reflect.TypeOf(v)
 	if vtype.Kind() != reflect.Slice {

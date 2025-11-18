@@ -18,6 +18,10 @@ func TestMap(t *testing.T) {
 func testMap(t *testing.T, m Valuable) {
 	m.SetValue("abc", "123")
 	m.SetValue("int", 123)
+	m.SetValue("boolTrue", true)
+	m.SetValue("boolFalse", 0)
+	m.SetValue("boolStr", "true")
+	m.SetValue("boolBad", "abc")
 	m.SetValue("x", M{"a": 123})
 	m.SetValue("/ary", []interface{}{1, 2, 3})
 	m.SetValue("/ary2", "1,2,3")
@@ -37,6 +41,11 @@ func testMap(t *testing.T, m Valuable) {
 	assert(m.Str("abc") == "123")
 	assert(m.StrDef("", "abc") == "123")
 	assert(m.StrDef("", "not") == "")
+	assert(m.Bool("boolTrue"))
+	assert(!m.Bool("boolFalse"))
+	assert(m.Bool("int"))
+	assert(m.BoolDef(true, "not"))
+	assert(!m.BoolDef(true, "boolFalse"))
 	//
 	assert(m.Int("int") == 123)
 	assert(m.Int64("int") == 123)
@@ -88,6 +97,12 @@ func testMap(t *testing.T, m Valuable) {
 	}
 	if v, err := m.Float64Val("int"); true {
 		assert(v == 123 && err == nil)
+	}
+	if v, err := m.BoolVal("boolStr"); true {
+		assert(v && err == nil)
+	}
+	if _, err := m.BoolVal("boolBad"); true {
+		assert(err != nil)
 	}
 	if v, err := m.MapVal("x"); true {
 		assert(v != nil && err == nil)
